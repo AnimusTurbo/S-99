@@ -258,3 +258,46 @@ object P21 {
     insertAt(n, l, Nil)
   }
 }
+
+object P22 {
+  // Create a list containing all integers within a given range.
+  assert(range(4, 9) == List(4, 5, 6, 7, 8, 9))
+  
+  def range(a: Int, b: Int): List[Int] = {
+    def range(acc: Int, res: List[Int]): List[Int] = acc match {
+      case x if (x == b) => res ::: List(b)
+      case _ => range(acc + 1, res ::: List(acc))
+    }
+    range(a, Nil)
+  }
+}
+
+object P23 {
+  // Extract a given number of randomly selected elements from a list.
+  
+  def randomSelect[A](n: Int, l: List[A]): List[A] = {
+    def randomSelect(acc: Int, l: List[A], res: List[A]): List[A] = acc match {
+      case 0 => res
+      case _ => val a = P20.removeAt(scala.util.Random.nextInt(l.length), l)
+      randomSelect(acc - 1, a._1, res ::: List(a._2))
+    }
+    randomSelect(n, l, Nil)
+  }
+}
+
+object P24 {
+  // Lotto: Draw N different random numbers from the set 1..M.
+  
+  def lotto(n: Int, a: Int): List[Int] = {
+    def lotto(acc: Int, res: List[Int]): List[Int] = acc match {
+      case 0 => res
+      case _ => lotto(acc - 1, res ::: List(scala.util.Random.nextInt(a)))
+    }
+    lotto(n, Nil)
+  }
+}
+
+object P25 {
+  // Generate a random permutation of the elements of a list.
+  def randomPermute[A](l: List[A]): List[A] = P23.randomSelect(l.length, l)
+}
